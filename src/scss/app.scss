@@ -15,6 +15,11 @@ body {
   margin: 50px auto;
   border-radius: 10px;
   max-width: 1400px;
+
+  @media (max-width: 670px) {
+    width: 100vw;
+    margin-top: 0;
+  }
 }
 
 .content {
@@ -25,13 +30,26 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-rows: auto;
+    grid-column-gap: 35px;
+
+    @media (max-width: 761px) {
+      grid-template-columns: repeat(2, minmax(200px, 1fr));
+    }
+
+    @media (max-width: 670px) {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
   }
 
   &__top {
     display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
     align-items: center;
     justify-content: space-between;
   }
@@ -325,15 +343,31 @@ body {
   padding: 11px 11px 11px 20px;
   font-size: 20px;
   width: 500px;
-  /* Make the input wide */
   border: 1px solid #ccc; 
   border-radius: 25px;
-
-  /* Add a light shadow for depth */
   outline: none;
   transition: all 0.3s ease;
   background-color: #ffffff;
-  /* Light background color */
+
+  @media (max-width: 1308px) {
+    width: 400px;
+    padding: 8px 8px 8px 15px;
+  }
+
+  @media (max-width: 1030px) {
+    width: 500px;
+    padding: 11px 11px 11px 20px;
+  }
+
+  @media (max-width: 740px) {
+    width: 300px;
+    padding: 7px 7px 7px 13px;
+  }
+
+    @media (max-width: 500px) {
+      width: 250px;
+      padding: 7px 7px 7px 13px;
+    }
 }
 
 .search-input input::placeholder {
@@ -351,11 +385,13 @@ body {
   background-color: #00ad2b;
   border: none;
   border-radius: 30px;
-  /* Rounded corners */
   color: #fff;
   font-size: 16px;
   padding: 11px 30px;
   margin-left: 10px;
   cursor: pointer;
-  /* Add a light shadow for depth */
+
+  @media (max-width: 1308px) {
+    padding: 8px 23px;
+  }
 }

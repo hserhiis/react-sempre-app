@@ -8,9 +8,24 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    @media (max-width: 1030px) {
+      flex-direction: column;
+      gap: 20px;
+    }
+  }
+
+  &__logo-wrapper {
+    display: flex;
   }
 
   &__logo {
-    display: flex;
+    @media (max-width: 1308px) {
+      width: 150px;
+    }
+
+    @media (max-width: 1030px) {
+      width: 200px;
+    }
   }
 }

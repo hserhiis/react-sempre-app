@@ -1,16 +1,24 @@
 import React from "react";
 import SearchInput from "./SearchInput";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
     <div className="header">
       <div className="container">
-        <div className="header__logo">
-          <img width="200" src="./img/logo-sempre.jpg" alt="Pizza logo" />
+        <div className="header__logo-wrapper">
+          <Link to="/">
+            <img
+              className="header__logo"
+              width={200}
+              src="./img/logo-sempre.jpg"
+              alt="Pizza logo"
+            />
+          </Link>
         </div>
         <SearchInput />
         <div className="header__cart">
-          <a href="/cart.html" className="button button--cart">
+          <Link to="/cart" className="button button--cart">
             <span>520 PLN</span>
             <div className="button__delimiter"></div>
             <svg
@@ -43,7 +51,7 @@ const Header = () => {
               />
             </svg>
             <span>3</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,11 +1,25 @@
 import React, { useState } from "react";
 
 const SearchInput = () => {
+  const [searchText, setSearchText] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(searchText);
+    setSearchText("");
+  };
+
   return (
     <div className="search-input">
       <form>
-        <input type="text" placeholder="Search for your pizza..." />
-        <button type="submit">
+        <input
+          value={searchText}
+          onChange={(e) => setSearchText(e.target.value)}
+          type="text"
+          placeholder="Search for your pizza..."
+        />
+
+        <button onClick={handleSubmit} type="submit">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
