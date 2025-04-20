@@ -1,6 +1,7 @@
 import Categories from "./components/Categories";
 import Header from "./components/Header";
 import PizzaBlock from "./components/PizzaBlock";
+import Sceleton from "./components/Skeleton";
 import Sort from "./components/Sort";
 import "./scss/app.scss";
 import React from "react";
@@ -9,6 +10,7 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [filteredPizzas, setFilteredPizzas] = React.useState([]);
   const [categoryId, setCategoryId] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(true);
 
   React.useEffect(() => {
     fetch("https://67e127e458cc6bf785248fd1.mockapi.io/items")
@@ -17,6 +19,7 @@ function App() {
       })
       .then((arr) => {
         setItems(arr);
+        setIsLoading(false);
       });
   }, []);
 
@@ -40,11 +43,15 @@ function App() {
             <Categories setCategoryId={setCategoryId} />
             <Sort />
           </div>
-          <h2 className="content__title">Все пиццы</h2>
+          <h2 className="content__title">
+            {isLoading ? "Loading Pizzas..." : "All Pizzas"}
+          </h2>
           <div className="content__items">
-            {filteredPizzas.map((obj) => (
-              <PizzaBlock key={obj.id} {...obj} />
-            ))}
+            {isLoading
+              ? [...new Array(6)].map((_, index) => <Sceleton key={index} />)
+              : filteredPizzas.map((obj) => (
+                  <PizzaBlock key={obj.id} {...obj} />
+                ))}
           </div>
         </div>
       </div>
