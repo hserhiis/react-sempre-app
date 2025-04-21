@@ -17,8 +17,8 @@ const findCartItem = (cart, payload) => {
 const filterCartItem = (cart, payload) => {
   return cart.filter(
     (item) =>
-      item.name !== payload.name &&
-      item.type !== payload.type &&
+      item.name !== payload.name ||
+      item.type !== payload.type ||
       item.size !== payload.size
   );
 };
