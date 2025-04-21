@@ -1,4 +1,6 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { setCategoryId } from "../features/category/categorySlice";
 
 const categoriesArray = [
   "Wszystkie",
@@ -9,12 +11,13 @@ const categoriesArray = [
   "Zamknięte",
 ];
 
-const Categories = (props) => {
+const Categories = () => {
+  const dispatch = useDispatch();
   const [activeCategory, setActiveCategory] = React.useState(0);
 
-  const setCategoryId = (index) => {
+  const handleCategoryId = (index) => {
     setActiveCategory(index);
-    props.setCategoryId(index);
+    dispatch(setCategoryId(index));
   };
 
   return (
@@ -22,7 +25,7 @@ const Categories = (props) => {
       <ul>
         {categoriesArray.map((category, index) => (
           <li
-            onClick={setCategoryId.bind(null, index)}
+            onClick={handleCategoryId.bind(null, index)}
             className={activeCategory === index ? "active" : ""}
           >
             {category}

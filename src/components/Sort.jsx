@@ -1,14 +1,20 @@
 import React from "react";
 
+import { setSortType } from "../features/sort/sortSlice";
+import { useDispatch } from "react-redux";
+
 const sortArray = ["popularności", "ceny", "alfabecie"];
+const sortArrayEng = ["rating", "price", "title"];
 
 function Sort() {
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = React.useState(false);
   const [activeSort, setActiveSort] = React.useState(0);
 
   function handleSortPopup(index) {
     setActiveSort(index);
     setIsOpen(!isOpen);
+    dispatch(setSortType(sortArrayEng[index]));
   }
 
   return (
