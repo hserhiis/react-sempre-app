@@ -46,6 +46,7 @@ function Sort() {
           <ul>
             {sortArray.map((item, index) => (
               <li
+                key={item}
                 onClick={() => handleSortPopup(index)}
                 className={activeSort === index ? "active" : ""}
               >

@@ -3,29 +3,47 @@ import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock';
 import Skeleton from '../components/Skeleton';
-import { useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { SKELETON_COUNT} from '../constants/api';
-import {useUrlParams} from '../hooks/useUrlParams';
-import {usePizzaData} from '../hooks/usePizzaData';
+import {fetchData} from "../features/data/dataSlice";
+import DragonGame from "../components/PizzaGame";
 
 const Home = () => {
   const { searchValue } = useSelector((state) => state.search);
   const { categoryId } = useSelector((state) => state.category);
   const { sortType } = useSelector((state) => state.sort);
-  
-  const { items, isLoading } = usePizzaData(categoryId, sortType, searchValue);
-  useUrlParams(categoryId, sortType, searchValue);
+  const { data, status } = useSelector((state) => state.data);
+
+  const dispatch = useDispatch();
+
+  const pizzasTitle = status === 'pending' ? 'Loading Pizzas...' : 'All Pizzas'
+
+  React.useEffect(() => {
+
+    const params = new URLSearchParams();
+    categoryId > 0 && params.append('category', categoryId);
+    params.append('sortBy', sortType);
+    params.append('order', sortType === 'rating' ? 'desc' : 'asc');
+    searchValue && params.append('search', searchValue);
+
+    dispatch(fetchData(params.toString()))
+  }, [categoryId, sortType, searchValue, dispatch]);
 
   const renderPizzaItems = () => {
-    if (isLoading) {
+    if (status === 'pending') {
       return [...new Array(SKELETON_COUNT)].map((_, index) => (
         <Skeleton key={index} />
       ));
     }
+    if (status === 'rejected') {
+      return (
+        <DragonGame />
+      );
+    }
 
-    return items.map((pizza) => (
+    return data.map((pizza) => (
       <PizzaBlock
-        key={pizza.id}
+        key={pizza.name}
         name={pizza.name}
         image={pizza.image}
         price={pizza.price}
@@ -42,7 +60,7 @@ const Home = () => {
         <Sort />
       </div>
       <h2 className="content__title">
-        {isLoading ? 'Loading Pizzas...' : 'All Pizzas'}
+        {pizzasTitle}
       </h2>
       <div className="content__items">{renderPizzaItems()}</div>
     </div>
