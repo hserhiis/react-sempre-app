@@ -1,7 +1,8 @@
-import React from "react";
-import SearchInput from "./SearchInput";
+import React, {lazy} from "react";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+
+const SearchInput = lazy(() => import("./SearchInput"));
 
 const imageSrc = "./img/logo-sempre.jpg"
 

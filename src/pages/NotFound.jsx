@@ -1,6 +1,7 @@
-import React from "react";
-import NotFoundBlock from "../components/NotFoundBlock";
-import ButtonBack from "../components/NotFoundBlock/ButtonBack";
+import React, {lazy} from "react";
+
+const NotFoundBlock = lazy(() => import("../components/NotFoundBlock"));
+const ButtonBack = lazy(() => import("../components/NotFoundBlock/ButtonBack"));
 
 const NotFound = () => {
   return (

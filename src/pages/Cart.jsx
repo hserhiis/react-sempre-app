@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
-import { clearCart } from "../features/cart/cartSlice";
+import {clearCart, selectCart} from "../features/cart/cartSlice";
 
 import React from "react";
 import { CartEmpty } from "../components/Cart-Empty";
@@ -8,11 +8,11 @@ import { Link } from "react-router-dom";
 
 const Cart = () => {
   const dispatch = useDispatch();
-  const { cart, totalPrice } = useSelector((state) => state.cart);
+  const { cart, totalPrice } = useSelector(selectCart);
   const totalCartPrice = totalPrice.toFixed(2);
-  const totalCount = cart.reduce((sum, item) => sum + item.count, 0);
+  const totalItemCount = cart.reduce((sum, item) => sum + item.count, 0);
 
-  const removeCartitems = () => {
+  const removeCartItems = () => {
     if (
       cart.length &&
       window.confirm("Are you sure you want to clear the cart?")
@@ -28,9 +28,9 @@ const Cart = () => {
   return (
     <div className="content">
       <div className="container container--cart">
-        <div class="cart">
-          <div class="cart__top">
-            <h2 class="content__title">
+        <div className="cart">
+          <div className="cart__top">
+            <h2 className="content__title">
               <svg
                 width="18"
                 height="18"
@@ -62,7 +62,7 @@ const Cart = () => {
               </svg>
               Корзина
             </h2>
-            <div onClick={removeCartitems} class="cart__clear">
+            <div onClick={removeCartItems} className="cart__clear">
               <svg
                 width="20"
                 height="20"
@@ -108,21 +108,21 @@ const Cart = () => {
               <CartItem key={item} {...item} />
             ))}
           </div>
-          <div class="cart__bottom">
-            <div class="cart__bottom-details">
+          <div className="cart__bottom">
+            <div className="cart__bottom-details">
               <span>
                 {" "}
-                W sumie: <b>{totalCount} szt.</b>{" "}
+                W sumie: <b>{totalItemCount} szt.</b>{" "}
               </span>
               <span>
                 {" "}
                 Za wszystko: <b>{totalCartPrice} PLN</b>{" "}
               </span>
             </div>
-            <div class="cart__bottom-buttons">
+            <div className="cart__bottom-buttons">
               <Link
                 to="/"
-                class="button button--outline button--add go-back-btn"
+                className="button button--outline button--add go-back-btn"
               >
                 <svg
                   width="8"
@@ -142,7 +142,7 @@ const Cart = () => {
 
                 <span>Wróć</span>
               </Link>
-              <div class="button pay-btn">
+              <div className="button pay-btn">
                 <span>Oplac teraz</span>
               </div>
             </div>

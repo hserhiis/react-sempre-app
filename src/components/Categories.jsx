@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { setCategoryId } from "../features/category/categorySlice";
+import { setCategoryId, setCategoryName } from "../features/category/categorySlice";
+import {setSearchValue} from "../features/search/searchSlice";
 
 const categoriesArray = [
   "Wszystkie",
@@ -18,6 +19,8 @@ const Categories = () => {
   const handleCategoryId = (index) => {
     setActiveCategory(index);
     dispatch(setCategoryId(index));
+    dispatch(setCategoryName(categoriesArray[index]));
+    dispatch(setSearchValue(""));
   };
 
   return (

@@ -4,9 +4,13 @@ import { API_BASE_URL } from "../../constants/api";
 
 export const fetchData = createAsyncThunk(
   'data/fetchDataStatus',
-  async (params) => {
+  async (params, thunkAPI) => {
     const { data } = await axios.get(`${API_BASE_URL}?${params}`);
-    return data;
+    if(data.length === 0)
+      thunkAPI.rejectWithValue(
+        'No data found'
+      )
+    return thunkAPI.fulfillWithValue(data);
   }
 );
 
@@ -36,5 +40,7 @@ const dataSlice = createSlice({
       });
   }
 });
+
+export const selectData = (state) => state.data;
 
 export default dataSlice.reducer;

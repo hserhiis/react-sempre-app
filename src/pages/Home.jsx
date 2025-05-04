@@ -1,22 +1,27 @@
-import React from 'react';
-import Categories from '../components/Categories';
-import Sort from '../components/Sort';
-import PizzaBlock from '../components/PizzaBlock';
-import Skeleton from '../components/Skeleton';
+import React, {lazy} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { SKELETON_COUNT} from '../constants/api';
-import {fetchData} from "../features/data/dataSlice";
-import DragonGame from "../components/PizzaGame";
+import {fetchData, selectData} from "../features/data/dataSlice";
+import {selectSearchValue} from "../features/search/searchSlice";
+import {selectCategoryId, selectCategoryName} from "../features/category/categorySlice";
+import {selectSortType} from "../features/sort/sortSlice";
+
+const Categories = lazy(() => import('../components/Categories'));
+const Sort = lazy(() => import('../components/Sort'));
+const PizzaBlock = lazy(() => import('../components/PizzaBlock'));
+const Skeleton = lazy(() => import('../components/Skeleton'));
+const DragonGame = lazy(() => import('../components/PizzaGame'));
+
 
 const Home = () => {
-  const { searchValue } = useSelector((state) => state.search);
-  const { categoryId } = useSelector((state) => state.category);
-  const { sortType } = useSelector((state) => state.sort);
-  const { data, status } = useSelector((state) => state.data);
+  const { categoryId } = useSelector(selectCategoryId);
+  const { categoryName } = useSelector(selectCategoryName);
+  const { searchValue } = useSelector(selectSearchValue);
+  const { sortType } = useSelector(selectSortType);
+  const { data, status } = useSelector(selectData);
 
   const dispatch = useDispatch();
 
-  const pizzasTitle = status === 'pending' ? 'Loading Pizzas...' : 'All Pizzas'
 
   React.useEffect(() => {
 
@@ -25,9 +30,8 @@ const Home = () => {
     params.append('sortBy', sortType);
     params.append('order', sortType === 'rating' ? 'desc' : 'asc');
     searchValue && params.append('search', searchValue);
-
     dispatch(fetchData(params.toString()))
-  }, [categoryId, sortType, searchValue, dispatch]);
+  }, [categoryId, categoryName, sortType, searchValue, dispatch]);
 
   const renderPizzaItems = () => {
     if (status === 'pending') {
@@ -54,16 +58,16 @@ const Home = () => {
   };
 
   return (
-    <div className="container">
-      <div className="content__top">
-        <Categories />
-        <Sort />
+      <div id='loadHomePage' className="container">
+        <div className="content__top">
+          <Categories />
+          <Sort />
+        </div>
+        <h2 className="content__title">
+          {status === 'pending' ? 'Loading Pizzas...' : categoryName}
+        </h2>
+        <div className="content__items">{renderPizzaItems()}</div>
       </div>
-      <h2 className="content__title">
-        {pizzasTitle}
-      </h2>
-      <div className="content__items">{renderPizzaItems()}</div>
-    </div>
   );
 };
 
